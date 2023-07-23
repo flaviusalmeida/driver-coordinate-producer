@@ -1,7 +1,8 @@
 package br.com.drivercoordinate.producer.controller;
 
-import br.com.drivercoordinate.producer.sender.EventSender;
-import org.springframework.amqp.core.AmqpTemplate;
+import br.com.drivercoordinate.producer.dto.MessageTestDTO;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/producer")
 public class ProducerController {
 
-    private final EventSender sender;
+    private final RabbitTemplate rabbitTemplate;
 
-    public ProducerController(EventSender sender) {
-        this.sender = sender;
+    @Value("${events.ex}")
+    private String eventsExName;
+
+    public ProducerController(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping
@@ -22,9 +26,10 @@ public class ProducerController {
 
     @GetMapping(path = "/send-msg-test")
     public ResponseEntity<String> sendMessageTest() {
-        sender.send("Test message RabbitMQ");
-        sender.sendExchange("Test message RabbitMQ whit exchange");
+        rabbitTemplate.convertAndSend(eventsExName,"", new MessageTestDTO());
         return ResponseEntity.ok("Message send!");
     }
+
+
 
 }
