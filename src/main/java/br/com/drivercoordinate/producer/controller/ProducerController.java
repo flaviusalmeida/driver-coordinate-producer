@@ -1,6 +1,6 @@
 package br.com.drivercoordinate.producer.controller;
 
-import br.com.drivercoordinate.producer.dto.MessageTestDTO;
+import br.com.drivercoordinate.producer.dto.DriverInfoDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +24,9 @@ public class ProducerController {
         return ResponseEntity.ok("Hello Producer!");
     }
 
-    @GetMapping(path = "/send-msg-test")
-    public ResponseEntity<String> sendMessageTest() {
-        rabbitTemplate.convertAndSend(eventsExName,"", new MessageTestDTO());
+    @PostMapping(path = "/send")
+    public ResponseEntity<String> send(@RequestBody DriverInfoDto dto) {
+        rabbitTemplate.convertAndSend(eventsExName,"", dto);
         return ResponseEntity.ok("Message send!");
     }
 
