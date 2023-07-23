@@ -23,7 +23,7 @@ public class ProducerController {
     @GetMapping(path = "/send-msg-test")
     public ResponseEntity<String> sendMessageTest() {
         sender.send("Test message RabbitMQ");
-        sender.send("Test message RabbitMQ whit exchange");
+        sender.sendExchange("Test message RabbitMQ whit exchange");
         return ResponseEntity.ok("Message send!");
     }
 

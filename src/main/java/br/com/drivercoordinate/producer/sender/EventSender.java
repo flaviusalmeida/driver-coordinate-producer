@@ -12,10 +12,10 @@ public class EventSender {
     private final AmqpTemplate queueSender;
     private final Queue queue;
 
-    public EventSender(RabbitTemplate rabbitTemplate, AmqpTemplate queueSender, Queue queue) {
+    public EventSender(RabbitTemplate rabbitTemplate, AmqpTemplate queueSender, Queue eventsQueue) {
         this.rabbitTemplate = rabbitTemplate;
         this.queueSender = queueSender;
-        this.queue = queue;
+        this.queue = eventsQueue;
     }
 
     public void send(String message) {
@@ -23,6 +23,6 @@ public class EventSender {
     }
 
     public void sendExchange(String message) {
-        queueSender.convertAndSend(queue.getName(), "", message);
+        queueSender.convertAndSend(queue.getName(), message);
     }
 }
