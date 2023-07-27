@@ -1,6 +1,7 @@
 package br.com.drivercoordinate.producer.controller;
 
 import br.com.drivercoordinate.producer.dto.DriverInfoDto;
+import lombok.Setter;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/producer")
+@Setter
 public class ProducerController {
 
     private final RabbitTemplate rabbitTemplate;
